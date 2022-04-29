@@ -13,19 +13,7 @@
       <!-- Slide 1 -->
       <div class="carousel-item active">
         <div class="container col-md-6">
-          <h2><span>Advance Search</span></h2>
-          <form action="get">
-            <div class="d-flex">
-
-              <input type="text" data-filter="company" name="companyname" class="filter-input form-control"
-                placeholder="Search for Companies" id="companyname">
-              <input type="text" data-filter="location" name="companyname" class="filter-input form-control"
-                placeholder="In Location" id="location">
-
-
-
-            </div>
-          </form>
+          <h2><span>Search For Companies</span></h2>
 
         </div>
       </div>
@@ -130,6 +118,10 @@
 {% block script %}
 <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <script>
+  let cInput = document.getElementById('companyname')
+  console.log(cInput)
+  let LInput = document.getElementById('location')
+
   $(document).ready(function () {
     console.log('hello World!')
 
