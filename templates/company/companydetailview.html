@@ -1,0 +1,199 @@
+{% extends 'baseinner.html' %}
+{% load static %}
+{% block main %}
+
+<div class="container mt-5 p-3">
+    <div class="row">
+
+        <img src="{{company.thumbnail.url}}" class="profile-cover float-end rounded-circle" alt="image"
+            class="rounded-circle">
+
+        <div class="col-6">
+            <div class="row m-3 flex-row  align-items-center">
+
+                <h1> <strong class="mb-2">{{company.name}}</strong></h1>
+
+
+                <div class="col">
+                    <p><i class="bi bi-clock"></i> {{company.opening_time}} to {{company.closing_time}}</p>
+                    <p><i class="bi bi-telephone"></i> {{company.phone_number}}</p>
+                    <p><i class="bi bi-envelope"></i> {{company.email}}</p>
+                </div>
+
+            </div>
+            <div class="row user-info ">
+                <div class="col"><strong>{{company.followers}}</strong>
+                    <p>followers</p>
+                </div>
+                <div class="col"><strong>{{company.likes}}</strong>
+                    <p>likes</p>
+                </div>
+            </div>
+            <div class="profile-bio">
+                <p>{{company.description|safe}}</p>
+            </div>
+            <div class="profile-bio">
+                <p>Booking per hour: {{company.bookingprice}}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    {% if company.category.name == 'Gym' %}
+    <a href="{% url 'Company:gymmembershipform-view' %}"><button class="btn btn-sm btn-primary">
+            Add Membership</button></a>
+    {% else %}
+    <section class="section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-8 col-sm-12  m-b-50">
+                    <table class="table shadow-lg">
+                        <thead class="table table-dark">
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Availabiltiy</th>
+                            </tr>
+                        </thead>
+
+                        {% for i in bookings %}
+                        <tr class=" table_row">
+                            <td class="column-2">{{i.starting_time}} to {{i.ending_time}}</td>
+                            {% if i.availability == 'Booked' %}
+                            <td class="column-2"><button type="button" class="btn btn-primary"
+                                    disabled>{{i.availability}}</button></td>
+                            {% else %}
+                            <td>
+
+                                <a href="{% url 'Company:bookingcheckout-view' i.id %}">
+                                    <button type="button" bookingid="{{i.id}}"
+                                        class="btn btn-primary">{{i.availability}}</button></a>
+                            </td>
+
+
+                            {% endif %}
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </section>
+    {% endif %}
+
+
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        console.log('hello World!')
+
+        //Select all the input fields with filter-checkbox class
+        $('.filter-input').on('change', function (e) {
+
+            let filterObj = {};
+
+            $(".filter-input").each(function (index, elem) {
+                let filterVal = $(this).val(); //value="id"
+                let filterKey = $(this).data('filter'); //data-filter="color" or  "category"
+                filterObj = {
+                    filterKey: filterVal,
+                }
+
+
+            });
+            console.log('filterObj:', filterObj)
+            //Initiate Ajax
+            $.ajax({
+                url: "{% url 'Company:searchengine-view' %}",
+                data: filterObj,
+                method: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    //$(".ajaxLoader").show();
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.companies == '') {
+                        $("#filteredProducts").html('<h4 style="text-align:center;color:red;">No Companies found for this match.</h4>');
+                    }
+                    else {
+                        $("#filteredCompanies").html(response.companies);
+                    }
+
+
+
+
+                }
+            });
+
+        })
+
+
+        //Select all the input fields with filter-checkbox class
+        $('.filter-checkbox').on('click', function (e) {
+
+            let filterObj = {};
+
+            $(".filter-checkbox").each(function (index, elem) {
+                let filterVal = $(this).val(); //value="id"
+                let filterKey = $(this).data('filter'); //data-filter="color" or  "category"
+
+                //Construct array from all the input filed that are checked applying map()
+                filterObj[filterKey] = Array.from(document.querySelectorAll('input[data-filter=' + filterKey + ']:checked')).map(function (el) {
+                    return el.value;
+                });
+
+            });
+            console.log('filterObj:', filterObj)
+            //Initiate Ajax
+            $.ajax({
+                url: "{% url 'Company:companyjson-view' %}",
+                data: filterObj,
+                method: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    //$(".ajaxLoader").show();
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response.companies == '') {
+                        $("#filteredProducts").html('<h4 style="text-align:center;color:red;">No Companies found for this match.</h4>');
+                    }
+                    else {
+                        $("#filteredCompanies").html(response.companies);
+                    }
+
+
+
+
+                }
+            });
+
+
+        }
+
+
+
+
+
+        )
+    })
+
+
+</script>
+{% endblock %}

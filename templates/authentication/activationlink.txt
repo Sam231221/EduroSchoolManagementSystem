@@ -1,0 +1,20 @@
+<body style="background-color: #f3f3f3;">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+    <br>
+    <center>
+        <div
+            style="background-color: #fff; width: 70%; height: 560px; margin-top: 50px; padding:10px; font-family: roboto;">
+            <br><br>
+            <p style="font-size: 22px;">From {{domain}}</p>
+            <!--This will be the company actually-->
+            <img width="60" height="60" src="https://cdn.jsdelivr.net/gh/Sam231221/AcadepraS@master/favicon.png"></img>
+            <p style="font-size: 26px;">Hi,{{user.username}}</p>
+            <hr>
+            <p style="font-size: 13px;">
+                Please click <a href="http://{{domain}}{% url 'Account:account-activation-view' uidb64=uid token=token %}" style="text-decoration: none;">here</a>  to activate your account.
+            </p>    
+        </div>
+    </center>
+</body>

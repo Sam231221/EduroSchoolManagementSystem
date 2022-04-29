@@ -1,0 +1,127 @@
+{% extends 'baseinner.html'%} {% load static %}
+{% block head %}
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+<style>
+  #footer {
+    margin-left: 0px !important;
+  }
+
+  .khalti-btn {
+    background: #a554a5;
+    color: white;
+    border: none;
+    font-weight: 600;
+    padding: 12px;
+    width: 100%;
+  }
+
+  .khalti-btn:hover {
+    background: #7c467c;
+  }
+</style>
+{% endblock %}
+
+{% block main %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+
+      <div class="card shadow-lg p-2">
+        <div class="card-body">
+          <h5 class="card-title">Your Company info</h5>
+          <hr>
+          Name of Company: {{company_obj.name}} <br>
+          Owner: {{company_obj.user}} <br>
+          Choosen Membership: {{company_obj.membership}} <br>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+      <div class="card p-3">
+        <div class="card-body">
+          <h5 class="card-title mb-0">Info</h5>
+          <p class="mt-2">For the Free Plans, Money will be returned just after verifying your account.</p>
+
+        </div>
+        <div>
+          <button id="payment-button" class="khalti-btn">Pay with Khalti</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- Include the Khalti JavaScript SDK -->
+<script>
+  let ds = '{{company_obj.id}}'
+  console.log('ds:', ds)
+  var config = {
+    // replace the publicKey with yours
+    "publicKey": "test_public_key_95cae5a0974c43b1a6be964395ab4853",
+    "productIdentity": "{{company_obj.id}}",
+    "productName": "{{company_obj.id}}",
+    "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+    "paymentPreference": [
+      "KHALTI",
+      "EBANKING",
+      "MOBILE_BANKING",
+      "CONNECT_IPS",
+      "SCT",
+    ],
+    "eventHandler": {
+      onSuccess(payload) {
+        // hit merchant api for initiating verfication
+        console.log(payload);
+        axios.get("{% url 'Company:dpfpbusinesscomplete-view' %}", {
+          params: {
+            "token": payload.token,
+            "amount": payload.amount,
+            "company_id": "{{company_obj.id}}",
+          }
+
+        }).then(function (resp) {
+          if (resp.data.success == true) {
+            alert('success')
+
+          } else {
+            alert("Sorry. Error occurred")
+            //location.href = "{{request.build_absolute_uri}}"
+          }
+        })
+
+      },
+      onError(error) {
+        console.log(error);
+      },
+      onClose() {
+        console.log('widget is closing');
+      }
+    }
+  };
+
+  var checkout = new KhaltiCheckout(config);
+  var btn = document.getElementById("payment-button");
+
+  var membershipvalue = '{{company_obj.membership.price}}'
+  console.log('value:', membershipvalue)
+  btn.onclick = function () {
+    // minimum transaction amount must be 10, i.e 1000 in paisa.
+
+    checkout.show({ amount: membershipvalue * 100 });
+  }
+</script>
+
+
+{% endblock %}
+
+{% endblock %}

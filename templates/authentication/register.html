@@ -1,0 +1,60 @@
+{% extends 'plaintemplate.html'%} {% load static %} 
+
+
+{% block body %}
+    <div class="container flex-center-container">
+    <!-- Registration Form -->
+        <div class="row">
+
+            <div class="col-lg-12 form-wrapper">
+                <div class="form p-3">
+                    <span class="title">Registration</span>
+
+                    <form novalidate action="{% url 'Account:register-view' %}" autocomplete="off" method="post">
+                        {% csrf_token %}
+                        <div class="input-field">
+                            {{signupform.username}}
+
+                            <i class="uil uil-user"></i>
+                        </div>
+                        <div class="input-field">
+                            {{signupform.email}}
+
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+
+                        <div class="input-field">
+                            {{signupform.password1}}
+
+                            <i class="uil uil-lock icon"></i>
+                        </div>
+                        <div class="input-field">
+                            {{signupform.password2}}
+
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw"></i>
+                        </div>
+
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <div class="g-recaptcha" data-sitekey="6LdaeUAfAAAAAB1RH-OjBI-Yq53aDiWQKT3HlYA8"></div>
+                        </div>
+                    </div>
+
+                        <a href="{% url 'Account:request-reset-email-view' %}" class="text">Forgot password?</a>
+                        <div class="input-field button">
+                            <input type="submit" value="Register" />
+                        </div>
+                    </form>
+
+                    <div class="login-signup">
+                        <span class="text">Already have a account?
+                            <a href="{% url 'Account:login-view' %}" class="text login-link">Signin now</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

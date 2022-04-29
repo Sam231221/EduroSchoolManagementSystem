@@ -1,0 +1,122 @@
+{% extends 'baseinner.html'%} {% load static %}
+{% block head %}
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+<style>
+    #footer {
+        margin-left: 0px !important;
+    }
+
+    .khalti-btn {
+        background: #a554a5;
+        color: white;
+        border: none;
+        font-weight: 600;
+        padding: 12px;
+        width: 100%;
+    }
+
+    .khalti-btn:hover {
+        background: #7c467c;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+
+
+<div class="pagetitle">
+    <h1>Footsal Booking Form</h1>
+
+</div><!-- End Page Title -->
+
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-8 col-sm-12 m-b-50 p-3 shadow-lg">
+            <p>User:{{request.user}}</p>
+            <p>Choosen Time: {{booking_obj.starting_time}} to {{booking_obj.ending_time}}</p>
+            <p>price: Rs {{booking_obj.price}}</p>
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="card p-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">Secure Checkout </h5>
+
+                    Total: Rs <span id="totalprice">{{booking_obj.price}}</span>
+                    <button class="mt-2 khalti-btn" id="payment-button">Pay with Khalti</button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</section>
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "test_public_key_95cae5a0974c43b1a6be964395ab4853",
+        "productIdentity": "order_{{orde.id}}",
+        "productName": "order_{{orde.id}}",
+        "productUrl": "http://localhost:8000",
+        "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+        ],
+        "eventHandler": {
+            onSuccess(payload) {
+                console.log('Payload', payload);
+
+                axios.get("{% url 'Company:bookingcomplete-view' %}", {
+                    params: {
+                        "token": payload.token,
+                        // "amount": payload.amount,
+                        "id": "{{booking_obj.id}}",
+                        "customer": "{{request.user}}"
+                    }
+
+                }).then(function (resp) {
+                    if (resp.data.success == true) {
+                        alert('You successfully registered for the selected plan')
+                        window.location.href = "{% url 'Company:explore-view' %}"
+                    } else {
+                        alert("Sorry. Error occurred")
+                        location.href = "{{request.build_absolute_uri}}"
+                    }
+                })
+
+            },
+            onError(error) {
+                console.log('500 error')
+                console.log(error);
+            },
+            onClose() {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    var totalamount = '{{booking_obj.price}}'
+    btn.onclick = function () {
+        //minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({ amount: totalamount * 100 });
+    }
+
+</script>
+
+{% endblock %}
+
+
+{% endblock %}

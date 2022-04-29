@@ -1,0 +1,209 @@
+{% extends 'baseinner.html' %}
+{% block title %}Checkout{% endblock %}
+{% block head %}
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+{% endblock %}
+{% block style %}
+<style>
+    .khalti-btn {
+        background: #a554a5;
+        color: white;
+        border: none;
+        font-weight: 600;
+        padding: 12px;
+        width: 100%;
+    }
+
+    .khalti-btn:hover {
+        background: #7c467c;
+    }
+</style>
+
+
+{% endblock %}
+{% block main %}
+<!-- Shoping Cart -->
+<section>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 col-sm-12 p-3 shadow-lg m-b-50">
+
+                <h1>Summary</h1>
+                <h2>{{order.totalamount}}</h2>
+                <table class="table">
+                    {% if basket.get_cart_items == 0 %}
+                    <h1 class="mb-2"> No products added yet!</h1>
+                    {% else %}
+                    {% for item in basket %}
+
+                    <tr class=" table_row">
+                        <td class="column-2">{{item.product.name}}</td>
+                        <td class="column-3"> ${{item.price}} x {{item.sits}}</td>
+
+                        <td class="column-4">{{item.product.date_created}}</td>
+                        <td class="column-5">${{item.totalprice}}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    {% endif %}
+
+                </table>
+
+            </div>
+
+            <!--SideBar-->
+            <div class="col-lg-4 col-sm-12  m-b-50 shadow-lg p-3">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        Cart Totals
+                    </h4>
+
+                    <div class="flex-w flex-t bor12 p-b-13">
+                        <div class="size-208">
+                            <span class="stext-110 cl2">
+                                Total: $ {{basket.get_total_price}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <span>Total Items:{{basket.get_cart_items}}</span>
+                    <button class=" mt-2 khalti-btn" id="payment-button">Pay with Khalti</button>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- Include the Khalti JavaScript SDK -->
+<script>
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "test_public_key_95cae5a0974c43b1a6be964395ab4853",
+        "productIdentity": "order_{{order.id}}",
+        "productName": "order_{{order.id}}",
+        "productUrl": "http://localhost:8000",
+        "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+        ],
+        "eventHandler": {
+            onSuccess(payload) {
+                console.log('Payload', payload);
+
+                axios.post("{% url 'Checkout:khaltiverify-view' %}", {
+                    params: {
+                        "token": payload.token,
+                        "amount": payload.amount,
+                        "order_id": "{{order.id}}"
+                    }
+
+                }).then(function (resp) {
+                    if (resp.data.success == true) {
+                        fetch(
+                            "{% url 'Checkout:payment-successful-view' %}"
+                        ).then((res) => res.json())
+                            .then((res) => { console.log(res.data) })
+
+                    } else {
+                        alert("Sorry. Error occurred")
+                        location.href = "{{request.build_absolute_uri}}"
+                    }
+                })
+
+            },
+            onError(error) {
+                console.log('500 error')
+                console.log(error);
+            },
+            onClose() {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    let checkout = new KhaltiCheckout(config);
+    let btn = document.getElementById("payment-button");
+    let totalamount = {{ basket.get_total_price }}
+    console.log(totalamount)
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({ amount: totalamount * 100 });
+
+    }
+</script>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    //DeleteProducts
+    $(document).ready(function () {
+
+        $('tr').on('click', '#product-delete-btn', function () {
+            output = " ";
+            console.log('fine')
+            const getToken = (name) => {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(
+                                name.length += 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            let csrftoken = getToken('csrftoken');
+
+            let fdata = {
+                "prod_id": $(this).attr('prod-id'),
+                'csrfmiddlewaretoken': csrftoken
+            }
+            mythis = this;
+            console.log(fdata)
+            $.ajax({
+                url: "{% url 'Basket:basket-delete-view' %}",
+                method: "post",
+                data: fdata,
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+                    if (response.action == 'delete') {
+                        //Remove Element
+                        const cartDiv = document.getElementById("your-cart")
+                        cartDiv.setAttribute('data-notify', response.basketqty)
+                        $(mythis).closest('tr').fadeOut()
+
+                        //updating value in Elements
+                        document.getElementById('header-cart-total').innerHTML = "Total: $" + response.basket_subtotal_price
+                        document.getElementById('cart-' + response.delete_id).style.display = "none";
+                        document.getElementById("basket-stotal-price").innerHTML = '$' + response.basket_subtotal_price
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+
+        })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html'%} {% load static %} {% block body %}
+
+<div class="container mx-auto">
+    <div class="row">
+        <div class="col">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">
+                        Provide your email to recieve reset instructions
+                    </h5>
+
+                    {% include 'utilities/flash_message.html'%}
+
+                    <form novalidate autocomplete="off" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" type="email" name="email" value="{{data.email}}"
+                                placeholder="Email" />
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-sm btn-block btn-primary" />
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <p>
+                        Already have an account?<a href="{%url 'Account:login-view'%}">Login</a>
+                        <br />
+                        Dont have an account?<a href="{%url 'Account:register-view'%}">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
