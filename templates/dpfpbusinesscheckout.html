@@ -90,8 +90,10 @@
           }
 
         }).then(function (resp) {
+          console.log(resp)
           if (resp.data.success == true) {
             alert('success')
+            window.location.href = "{% url 'Company:explore-view' %}"
 
           } else {
             alert("Sorry. Error occurred")

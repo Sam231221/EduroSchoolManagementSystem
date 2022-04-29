@@ -120,18 +120,21 @@ class DpfpPricingView(View):
 
 class DpfpBusinessFormView(View):
     def get(self,request):
+        print('user:',request.user.username)
         companyform = CompanyForm()
         memberships= Membership.objects.all()
         return render(request, 'dpfpbusinessform.html', {'companyform':companyform, 'memberships':memberships})
 
     def post(self,request):
         membership_obj= Membership.objects.filter(price =request.POST['membership']).first()
-        try:
-            company_obj, created = Company.objects.get_or_create(user=request.user,name=request.POST['companyname'], phone_number=request.POST['contactnumber'], opening_time=request.POST['openingtime'], closing_time=request.POST['closingtime'], membership=membership_obj, is_active = False)
+        company_obj =  Company.objects.filter(user=request.user).first()
+        if company_obj is None:
+           
+            Company.objects.create(user=request.user, name=request.POST['companyname'], office_number=request.POST['contactnumber'], opening_time=request.POST['openingtime'], closing_time=request.POST['closingtime'], membership=membership_obj, is_active = False)
             messages.success(request, 'Company is succesfullyfor this profile')
             return HttpResponseRedirect(reverse('Company:dpfpbusinesscheckout-view', args=(membership_obj.id,)))
-        except:
-            messages.error(request, 'Company is alreadyy registered for this profile')
+        else:
+            messages.error(request, 'Company is already registered for this profile')
             return HttpResponseRedirect(request.META["HTTP_REFERER"])
 class DpfpBusinessCheckoutView(View):
     def get(self,request, id):
