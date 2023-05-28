@@ -2,6 +2,51 @@
 > A batteries-included Django starter project by Sameer Shahi Thakuri.
 -->
 
+
+
+
+asgiref==3.5.0
+black==22.1.0
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer==3.1.0
+click==8.0.4
+colorama==0.4.4
+cryptography==40.0.2
+defusedxml==0.7.1
+dj-database-url==1.2.0
+Django==4.0.3
+django-ckeditor==6.1.0
+django-js-asset==2.0.0
+gunicorn==20.1.0
+idna==3.4
+marshmallow==3.15.0
+mypy-extensions==0.4.3
+oauthlib==3.2.2
+packaging==21.3
+pathspec==0.9.0
+Pillow==9.0.1
+platformdirs==2.5.1
+psycopg2-binary==2.9.5
+pycparser==2.21
+PyJWT==2.7.0
+pyparsing==3.0.7
+python-dotenv==0.19.2
+python3-openid==3.2.0
+requests==2.31.0
+requests-oauthlib==1.3.1
+six==1.16.0
+social-auth-app-django==5.0.0
+social-auth-core==4.4.2
+sqlparse==0.4.2
+tomli==2.0.1
+tzdata==2022.1
+urllib3==2.0.2
+validate-email==1.3
+
+
+
+
 ## 🚀 Features
 
 - Django 4.0.3 & Python 3.9.6
