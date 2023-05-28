@@ -33,8 +33,8 @@ $ git clone https://github.com/Sam231221/DPFP-National-Hackathon.git
 ### using Venv
 
 ```
-$ python3 -m venv djangoprostartertemplate
-$ source djangox/bin/activate
+$ python3 -m venv Zvirtual
+$ source venv Zvirtual/bin/activate
 (djangoprostartertemplate) $ pip install -r requirements.txt
 (djangoprostartertemplate) $ python manage.py migrate
 (djangoprostartertemplate) $ python manage.py loaddata user.json
@@ -59,7 +59,7 @@ $ pipenv shell
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome! See [CONTRIBUTING.md](https://github.com/wsvincent/djangox/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!.
 
 ## ⭐️ Support
 
