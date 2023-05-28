@@ -8,7 +8,7 @@ env.read_env()  # read .env file, if it exists
 DEBUG = True
 SECRET_KEY = env.str("SECRET_KEY")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["digitalpfp.onrender.com"]
 
 # Order matters
 MIDDLEWARE = [
