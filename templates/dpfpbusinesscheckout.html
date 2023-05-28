@@ -23,41 +23,44 @@
 {% endblock %}
 
 {% block main %}
+<div class="container">
 
-<section class="section">
-  <div class="row">
-    <div class="col-lg-6">
+  <section class="section">
+    <div class="row p-2">
+      <h1>Company Summary</h1>
+      <div class="col-lg-6">
 
-      <div class="card shadow-lg p-2">
-        <div class="card-body">
-          <h5 class="card-title">Your Company info</h5>
-          <hr>
-          Name of Company: {{company_obj.name}} <br>
-          Owner: {{company_obj.user}} <br>
-          Choosen Membership: {{company_obj.membership}} <br>
+        <div class="card shadow-lg p-2">
+          <div class="card-body">
+            <h5 class="card-title">Your Company info</h5>
+            <hr>
+            <strong>Name of Company</strong>: {{company_obj.name}} <br>
+            Owner: {{company_obj.user}} <br>
+            Choosen Membership: {{company_obj.membership}} <br>
 
+          </div>
         </div>
+
       </div>
 
-    </div>
+      <div class="col-lg-4">
 
-    <div class="col-lg-4">
+        <div class="card p-3">
+          <div class="card-body">
+            <h5 class="card-title mb-0">Info</h5>
+            <p class="mt-2">For the Free Plans, Money will be returned just after verifying your account.</p>
 
-      <div class="card p-3">
-        <div class="card-body">
-          <h5 class="card-title mb-0">Info</h5>
-          <p class="mt-2">For the Free Plans, Money will be returned just after verifying your account.</p>
-
+          </div>
+          <div>
+            <button id="payment-button" class="khalti-btn">Pay with Khalti</button>
+          </div>
         </div>
-        <div>
-          <button id="payment-button" class="khalti-btn">Pay with Khalti</button>
-        </div>
+
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
+</div>
 {% block script %}
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -100,6 +103,8 @@
             //location.href = "{{request.build_absolute_uri}}"
           }
         })
+
+
 
       },
       onError(error) {

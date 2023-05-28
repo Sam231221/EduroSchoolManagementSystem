@@ -1,4 +1,5 @@
 import time
+from unicodedata import name
 from venv import create
 
 from django.contrib import messages
@@ -7,9 +8,10 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import TemplateView, View
+from pyparsing import Located
 from MUtilities.models import Membership
 
-from MCompany.models import Booking, Category, Company, Event, GymPlan, Service, User
+from MCompany.models import Booking,Location ,Category, Company, Event, GymPlan, Service, User
 
 from .forms import CompanyForm
 
@@ -22,8 +24,10 @@ def convert(time_string):
 class CompanyView(View):
     def get(self, request):
         categories = Category.objects.all()
+        locations = Location.objects.all()
         context={
             'categories':categories,
+            'locations':locations,
             'gymcount':Company.objects.filter(category__name__icontains='Gym').count(),
             'futsalcount':Company.objects.filter(category__name__icontains='Futsal').count(),
             'companies': Company.objects.order_by('?'),
@@ -65,8 +69,6 @@ class GymMembershipSuccessView(View):
 
 class BookingCheckoutView(View):
     def get(self, request,id):
-        c=User.objects.filter(username__icontains = 'Sam').first()
-        print(c)
         booking_obj = Booking.objects.get(id=id)
         context={'booking_obj':booking_obj}       
         return render(request,'booking/bookingcheckoutview.html',context)    
@@ -121,6 +123,7 @@ class DpfpPricingView(View):
 class DpfpBusinessFormView(View):
     def get(self,request):
         print('user:',request.user.username)
+        
         companyform = CompanyForm()
         memberships= Membership.objects.all()
         return render(request, 'dpfpbusinessform.html', {'companyform':companyform, 'memberships':memberships})
@@ -129,8 +132,10 @@ class DpfpBusinessFormView(View):
         membership_obj= Membership.objects.filter(price =request.POST['membership']).first()
         company_obj =  Company.objects.filter(user=request.user).first()
         if company_obj is None:
-           
-            Company.objects.create(user=request.user, name=request.POST['companyname'], office_number=request.POST['contactnumber'], opening_time=request.POST['openingtime'], closing_time=request.POST['closingtime'], membership=membership_obj, is_active = False)
+            print('type:', request.POST['membership'])
+            category_obj = Category.objects.filter(name=request.POST['category']).first()
+            print(category_obj)
+            Company.objects.create(user=request.user, category=category_obj ,name=request.POST['companyname'], office_number=request.POST['contactnumber'], opening_time=request.POST['openingtime'], closing_time=request.POST['closingtime'], membership=membership_obj, is_active = False)
             messages.success(request, 'Company is succesfullyfor this profile')
             return HttpResponseRedirect(reverse('Company:dpfpbusinesscheckout-view', args=(membership_obj.id,)))
         else:

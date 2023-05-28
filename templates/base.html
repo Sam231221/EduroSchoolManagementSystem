@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dewi Bootstrap Template - Index</title>
+  <title>Dpfp</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -44,12 +44,10 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="{% url 'home-view' %}">Dpfp</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="">Home</a></li>
           <li><a class="nav-link scrollto" href="{% url 'Company:explore-view' %}">Explore</a></li>
           <li><a class="nav-link scrollto" href="{% url 'Company:dpfppricing-view' %}">Pricing</a></li>
           <li><a class="nav-link scrollto" href="{% url 'Company:dpfpbusinessform-view' %}">DPFP Business</a></li>
@@ -98,13 +96,18 @@
           <p>Companies Nearby You</p>
         </div>
 
+        <!--<img src="{{i.thumbnail.url}}" class="img-fluid" alt="...">-->
         <div class="row aos-init aos-animate gy-4" data-aos="zoom-in" data-aos-delay="100">
 
           {% for i in nearbyCompanies %}
 
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
             <div class="course-item">
+              {% if i.thumbnail %}
               <img src="{{i.thumbnail.url}}" class="img-fluid" alt="...">
+              {% else %}
+              <img src="{% static 'assets/img/placeholder.jpeg' %}" class="img-fluid" alt="...">
+              {% endif %}
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>{{i.category}}</h4>
@@ -146,7 +149,11 @@
 
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
             <div class="course-item">
+              {% if i.thumbnail %}
               <img src="{{i.thumbnail.url}}" class="img-fluid" alt="...">
+              {% else %}
+              <img src="{% static 'assets/img/placeholder.jpeg' %}" class="img-fluid" alt="...">
+              {% endif %}
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>{{i.category}}</h4>
@@ -214,8 +221,6 @@
 
       </div>
     </section><!-- End About Boxes Section -->
-
-
 
     <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">

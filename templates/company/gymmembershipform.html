@@ -24,78 +24,80 @@
 
 {% block main %}
 
+<div class="container">
+    <section class="section">
+        <div class="row">
 
 
-<section class="section">
-    <div class="row">
 
-        <div class="pagetitle">
-            <h1>Sign up for Gym Membership</h1>
+            <div class="col-lg-6">
 
-        </div><!-- End Page Title -->
+                <div class="card p-4">
+                    <div class="card-body">
+                        <div class="pagetitle">
+                            <h1>Sign up for Gym Membership</h1>
+                        </div><!-- End Page Title -->
+                        <hr>
 
-        <div class="col-lg-6">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-
-                        <div class="row mb-3">
-                            <label for="inputTime" class="col-sm-2 col-form-label">Joining time</label>
-                            <div class="col-sm-10">
-                                <input type="date" name="joiningtime" class="form-control">
+                            <div class="row mb-3">
+                                <label for="inputTime" class="col-sm-2 col-form-label">Joining time</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="joiningtime" class="form-control">
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="row mb-3">
-                            <label for="inputTime" class="col-sm-2 col-form-label">Coming Time</label>
-                            <div class="col-sm-10">
-                                <input type="time" name="comingtime" class="form-control">
+                            <div class="row mb-3">
+                                <label for="inputTime" class="col-sm-2 col-form-label">Coming Time</label>
+                                <div class="col-sm-10">
+                                    <input type="time" name="comingtime" class="form-control">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Paying plan</label>
-                            <div class="col-sm-10">
-                                <select class="form-select" name="payingplan" id="membershipSelect"
-                                    aria-label="Default select example">
-                                    <option selected>Select Plan</option>
-                                    {% for i in memberships %}
-                                    <option membershipid="{{i.id}}" value="{{i.price}}">{{i.name}}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Paying plan</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" name="payingplan" id="membershipSelect"
+                                        aria-label="Default select example">
+                                        <option selected>Select Plan</option>
+                                        {% for i in memberships %}
+                                        <option membershipid="{{i.id}}" value="{{i.price}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
 
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
+
             </div>
 
-        </div>
+            <div class="col-lg-4">
 
-        <div class="col-lg-4">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-0">Secure Checkout </h5>
 
-            <div class="card p-3">
-                <div class="card-body">
-                    <h5 class="card-title mb-0">Secure Checkout </h5>
-
-                    Total: Rs <span id="totalprice">0</span>
-                    <button class=" mt-2 khalti-btn" id="payment-button">Pay with Khalti</button>
+                        Total: Rs <span id="totalprice">0</span>
+                        <button class=" mt-2 khalti-btn" id="payment-button">Pay with Khalti</button>
+                    </div>
                 </div>
+
+
+
             </div>
-
-
-
         </div>
-    </div>
-</section>
+    </section>
+</div>
+
+
 
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

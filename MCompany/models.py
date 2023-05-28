@@ -29,7 +29,13 @@ class Category(models.Model):
     name=models.CharField(null=True, max_length=50)
 
     def __str__(self) -> str:
-        return str(self.name)    
+        return str(self.name)  
+
+class Location(models.Model):
+    name=models.CharField(null=True, max_length=50)
+
+    def __str__(self) -> str:
+        return str(self.name)             
 
 class GymPlan(models.Model):
     name=models.CharField(null=True, max_length=50)
@@ -54,7 +60,7 @@ class Company(models.Model):
         config_name="default",
     ) 
     bookingprice = models.IntegerField(null=True)
-    location = models.CharField(null=True, max_length=100)  
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE ,null=True)
     followers = models.IntegerField(null=True)
     likes = models.IntegerField(null=True)
@@ -112,7 +118,7 @@ class Booking(models.Model):
     availability = models.CharField(default='Book Now', choices=AVAILABILITY_CHOICES, max_length=100, blank=True)
 
     def __str__(self):
-        return f"enrolled by {self.starting_time}"
+        return f"Enrolled by {self.starting_time}"
 
     class Meta:
         ordering = ('starting_time',)    

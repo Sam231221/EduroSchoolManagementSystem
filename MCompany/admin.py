@@ -8,6 +8,7 @@ from MCompany.models import (
     Event,
     GymPlan,
     ImageAlbum,
+    Location,
     Service,
     SocialLink,
     Visitior,
@@ -23,12 +24,13 @@ admin.site.register(SocialLink)
 admin.site.register(Visitior)
 admin.site.register(Category)
 admin.site.register(GymPlan)
-
+admin.site.register(Location)
 class SuperCompanyModel(admin.ModelAdmin):
     list_display = (
         "name",
         'user',
         "thumbnail",
+        "office_number",
         "location",
         "opening_time",
         "closing_time",

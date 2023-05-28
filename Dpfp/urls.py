@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from MEhub.views import HomeView
+admin.site.site_header = "Dpfp Adminsitration"
 
 urlpatterns = [
     re_path(r"^admin/", admin.site.urls),
