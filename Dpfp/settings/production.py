@@ -25,17 +25,17 @@ MIDDLEWARE = [
     # 'csp.middleware.CSPMiddleware',                           #Explict middleware
 ]
 
-# POSTGRES DATABASE
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env.str("DATABASE_NAME"),
-        "USER": env.str("DATABASE_USER"),
-        "PASSWORD": env.str("DATABASE_PASSWORD"),
-        "HOST": env.str("DATABASE_HOST"),
-        "PORT": env.str("DATABASE_PORT"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://...',
+    conn_max_age=600,
+    conn_health_checks=True,
+)
 
 # Content Security Policy
 """
