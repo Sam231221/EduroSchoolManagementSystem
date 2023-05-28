@@ -15,7 +15,7 @@ MIDDLEWARE = [
     #'django.middleware.cache.UpdateCacheMiddleware',         #Explict middleware
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    #'whitenoise.middleware.WhiteNoiseMiddleware',             #Explict middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',             #Explict middleware
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
