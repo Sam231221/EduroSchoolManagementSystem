@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-
+import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEFAULT_APPS = [
@@ -202,6 +202,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = "/staticfiles/"
+
+
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
 
