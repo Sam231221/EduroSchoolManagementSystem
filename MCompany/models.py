@@ -1,7 +1,4 @@
 from decimal import Decimal
-from statistics import mode
-from tkinter.tix import Tree
-from unicodedata import category
 
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.validators import (

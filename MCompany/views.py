@@ -1,6 +1,4 @@
 import time
-from unicodedata import name
-from venv import create
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
@@ -8,7 +6,6 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import TemplateView, View
-from pyparsing import Located
 from MUtilities.models import Membership
 
 from MCompany.models import Booking,Location ,Category, Company, Event, GymPlan, Service, User

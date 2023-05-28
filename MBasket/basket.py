@@ -1,6 +1,4 @@
 from decimal import Decimal
-from math import prod
-
 from MCompany.models import Event, Service
 
 
