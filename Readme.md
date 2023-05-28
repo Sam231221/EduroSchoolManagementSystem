@@ -30,6 +30,8 @@ DPFP can be installed via Pip, Virtualenv or Pipenv depending upon your setup. T
 $ git clone https://github.com/Sam231221/DPFP-National-Hackathon.git
 ```
 
+postgres://dpfp_user:IQtoyjyjfVYbnFZkWaoEJ4JGVnX0x9Er@dpg-chpfqn7dvk4goeo39mt0-a/dpfp
+
 ### using Venv
 
 ```
