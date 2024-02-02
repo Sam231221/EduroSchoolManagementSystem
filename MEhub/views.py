@@ -5,7 +5,7 @@ from django.views.generic import  View
 class HomeView(View):
     def get(self, request):
         context={}
-        return render(request,'base.html', context)
+        return render(request,'dashboard.html', context)
 
 
 class StudentListView(View):

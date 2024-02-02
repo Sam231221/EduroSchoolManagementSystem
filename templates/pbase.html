@@ -61,6 +61,7 @@
             </a>
           </div>
 
+          <!-- SearchBar -->
           <div class="top-nav-search">
             <form>
               <input
@@ -84,7 +85,7 @@
                 class="dropdown-toggle nav-link header-nav-list"
                 data-bs-toggle="dropdown"
               >
-                <img src="assets/img/icons/header-icon-01.svg" alt="" />
+                <img src="{% static 'assets/img/icons/header-icon-01.svg' %}" alt="" />
               </a>
               <div class="dropdown-menu">
                 <div class="noti-content">
@@ -93,11 +94,9 @@
                       ><i class="flag flag-lr me-2"></i>English</a
                     >
                     <a class="dropdown-item" href="javascript:;"
-                      ><i class="flag flag-bl me-2"></i>Francais</a
+                      ><i class="flag flag-np me-2"></i>Nepali</a
                     >
-                    <a class="dropdown-item" href="javascript:;"
-                      ><i class="flag flag-cn me-2"></i>Turkce</a
-                    >
+                  
                   </div>
                 </div>
               </div>
@@ -109,7 +108,7 @@
                 class="dropdown-toggle nav-link header-nav-list"
                 data-bs-toggle="dropdown"
               >
-                <img src="assets/img/icons/header-icon-05.svg" alt="" />
+                <img src="{% static 'assets/img/icons/header-icon-05.svg' %}" alt="" />
               </a>
               <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
@@ -198,7 +197,7 @@
                             <img
                               class="avatar-img rounded-circle"
                               alt="User Image"
-                              src="assets/img/profiles/avatar-13.jpg"
+                              src="{% static 'assets/img/profiles/avatar-13.jpg' %}"
                             />
                           </span>
                           <div class="media-body flex-grow-1">
@@ -226,7 +225,7 @@
 
             <li class="nav-item zoom-screen me-2">
               <a href="#" class="nav-link header-nav-list win-maximize">
-                <img src="assets/img/icons/header-icon-04.svg" alt="" />
+                <img src="{% static 'assets/img/icons/header-icon-04.svg' %}" alt="" />
               </a>
             </li>
 
@@ -239,7 +238,7 @@
                 <span class="user-img">
                   <img
                     class="rounded-circle"
-                    src="assets/img/profiles/avatar-01.jpg"
+                    src="{% static 'assets/img/profiles/avatar-01.jpg' %}"
                     width="31"
                     alt="Soeng Souy"
                   />
@@ -253,7 +252,7 @@
                 <div class="user-header">
                   <div class="avatar avatar-sm">
                     <img
-                      src="assets/img/profiles/avatar-01.jpg"
+                      src="{% static 'assets/img/profiles/avatar-01.jpg' %}"
                       alt="User Image"
                       class="avatar-img rounded-circle"
                     />
