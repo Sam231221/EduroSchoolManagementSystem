@@ -15,11 +15,7 @@ EXPLICT_APPS = [
     #'django.contrib.sites',
     'MAuthentication.apps.MAuthenticationConfig',
     'MEhub',
-    'MCompany',
-    'MOrders',
-    'MUtilities',
-    'MCheckout',
-    'MBasket.apps.MbasketConfig',
+
     "ckeditor",
     "ckeditor_uploader",
 ]
@@ -47,7 +43,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 'social_django.context_processors.backends',  
                 'social_django.context_processors.login_redirect',  
-                'MBasket.context_processors.basket',
                 'MAuthentication.context_processors.forms',
             ],
         },
@@ -71,7 +66,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CKEDITOR_UPLOAD_PATH = "ckeditor/uploads/"
+CKEDITOR_UPLOAD_PATH = "Sms/uploads/"
 
 CKEDITOR_CONFIGS = {
     "default": {

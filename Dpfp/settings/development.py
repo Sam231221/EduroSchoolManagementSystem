@@ -53,4 +53,4 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = env.str("Email_Host_User")
-EMAIL_HOST_PASSWORD = env.str("Email_Host_Password")
+EMAIL_HOST_PASSWORD = "qpsy fgsc mdyp dpoe"
