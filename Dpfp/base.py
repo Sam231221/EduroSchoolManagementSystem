@@ -15,7 +15,8 @@ EXPLICT_APPS = [
     #'django.contrib.sites',
     'MAuthentication.apps.MAuthenticationConfig',
     'MEhub',
-
+    "MManagement",
+    "MOthers",
     "ckeditor",
     "ckeditor_uploader",
 ]

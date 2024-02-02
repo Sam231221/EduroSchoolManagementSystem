@@ -7,9 +7,11 @@ admin.site.site_header = "Dpfp Adminsitration"
 
 urlpatterns = [
     re_path(r"^admin/", admin.site.urls),
-   
-    path("", include('MEhub.urls', namespace="MEhub")),
     path("", include('MAuthentication.urls')),
+    path("", include('MEhub.urls', namespace="MEhub")),
+    path("", include('MManagement.urls', namespace="MManagement")),
+    path("", include('MOthers.urls', namespace="MOthers")),
+
     re_path(r"^ckeditor/", include("ckeditor_uploader.urls")),
     path('socialauth/', include('social_django.urls', namespace='social'))
 ]

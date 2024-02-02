@@ -8,7 +8,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=0"
     />
     <title>EduroSms |{% block title %}{% endblock %}</title>
-    <link rel="shortcut icon" href="staticfiles/assets/img/favicon.png" />
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
       rel="stylesheet"
@@ -33,6 +33,12 @@
       rel="stylesheet"
       href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}"
     />
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/plugins/fullcalendar/fullcalendar.min.css' %}"
+    />
+
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
   </head>
 
@@ -275,6 +281,9 @@
           <div class="sidebar-inner slimscroll">
             <div id="sidebar-menu" class="sidebar-menu">
               <ul>
+                <!-- ------------------------
+                Main
+                ----------------------- -->
                 <li class="menu-title">
                   <span>Main</span>
                 </li>
@@ -293,7 +302,7 @@
                   <ul>
                     <li><a href="{% url 'MEhub:student-list-view' %}">Student List</a></li>
 
-                    <li><a href="add-student.html">Student Add</a></li>
+                    <li><a href="{% url 'MEhub:student-add-view' %}">Student Add</a></li>
                   
                   </ul>
                 </li>
@@ -303,9 +312,9 @@
                     <span> Teachers</span> <span class="menu-arrow"></span
                   ></a>
                   <ul>
-                    <li><a href="teachers.html">Teacher List</a></li>
+                    <li><a href="{% url 'MEhub:teacher-list-view' %}">Teacher List</a></li>
                    
-                    <li><a href="add-teacher.html">Teacher Add</a></li>
+                    <li><a href="{% url 'MEhub:teacher-add-view' %}">Teacher Add</a></li>
                   
                   </ul>
                 </li>
@@ -316,8 +325,8 @@
                     <span class="menu-arrow"></span
                   ></a>
                   <ul>
-                    <li><a href="subjects.html">Subject List</a></li>
-                    <li><a href="add-subject.html">Subject Add</a></li>
+                    <li><a href="{% url 'MEhub:subject-list-view' %}">Subject List</a></li>
+                    <li><a href="{% url 'MEhub:subject-add-view' %}">Subject Add</a></li>
                    
                   </ul>
                 </li>
@@ -327,12 +336,16 @@
                     <span class="menu-arrow"></span
                   ></a>
                   <ul>
-                    <li><a href="invoices.html">Invoices List</a></li>
+                    <li><a href="{% url 'MEhub:invoice-list-view' %}">Invoices List</a></li>
                    
-                    <li><a href="add-invoice.html">Add Invoices</a></li>
+                    <li><a href="{% url 'MEhub:invoice-add-view' %}">Add Invoices</a></li>
                 
                   </ul>
                 </li>
+
+               <!-- ------------------------
+                Management
+                ----------------------- -->
                 <li class="menu-title">
                   <span>Management</span>
                 </li>
@@ -342,42 +355,21 @@
                     <span> Accounts</span> <span class="menu-arrow"></span
                   ></a>
                   <ul>
-                    <li><a href="fees-collections.html">Fees Collection</a></li>
-                    <li><a href="expenses.html">Expenses</a></li>
-                    <li><a href="salary.html">Salary</a></li>
-                    <li><a href="add-fees-collection.html">Add Fees</a></li>
-                    <li><a href="add-expenses.html">Add Expenses</a></li>
-                    <li><a href="add-salary.html">Add Salary</a></li>
+                    <li><a href="{% url 'MManagement:fees-list-view' %}">Fees Collection</a></li>
+                    <li><a href="{% url 'MManagement:expense-list-view' %}">Expenses</a></li>
+                    <li><a href="{% url 'MManagement:salary-list-view' %}">Salary</a></li>
+                    <li><a href="{% url 'MManagement:fees-add-view' %}">Add Fees</a></li>
+                    <li><a href="{% url 'MManagement:expense-add-view' %}">Add Expenses</a></li>
+                    <li><a href="{% url 'MManagement:salary-add-view' %}">Add Salary</a></li>
                   </ul>
                 </li>
-                <li>
-                  <a href="holiday.html"
-                    ><i class="fas fa-holly-berry"></i> <span>Holiday</span></a
-                  >
-                </li>
-                <li>
-                  <a href="fees.html"
-                    ><i class="fas fa-comment-dollar"></i> <span>Fees</span></a
-                  >
-                </li>
-                <li>
-                  <a href="exam.html"
-                    ><i class="fas fa-clipboard-list"></i>
-                    <span>Exam list</span></a
-                  >
-                </li>
-                <li>
-                  <a href="event.html"
-                    ><i class="fas fa-calendar-day"></i> <span>Events</span></a
-                  >
-                </li>
-                <li>
-                  <a href="time-table.html"
-                    ><i class="fas fa-table"></i> <span>Time Table</span></a
-                  >
-                </li>
+                <li><a href="{% url 'MManagement:holiday-list-view' %}"><i class="fas fa-holly-berry"></i> <span>Holiday</span></a></li>
+                <li><a href="{% url 'MManagement:fees-list-view' %}"><i class="fas fa-comment-dollar"></i> <span>Fees</span></a></li>
+                <li><a href="{% url 'MManagement:exam-list-view' %}"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a></li>
+                <li><a href="{% url 'MManagement:events-list-view' %}"><i class="fas fa-calendar-day"></i> <span>Events</span></a></li>
+                <li><a href="{% url 'MManagement:timetable-list-view' %}"><i class="fas fa-table"></i> <span>Time Table</span></a></li>
 
-         
+                        
                 <li>
                   <a href="settings.html"
                     ><i class="fas fa-cog"></i> <span>Settings</span></a
@@ -404,17 +396,17 @@
                   <span>Others</span>
                 </li>
                 <li>
-                  <a href="sports.html"
+                  <a href="{% url 'MOthers:sport-list-view' %}"
                     ><i class="fas fa-baseball-ball"></i> <span>Sports</span></a
                   >
                 </li>
                 <li>
-                  <a href="hostel.html"
+                  <a href="{% url 'MOthers:hostel-view' %}"
                     ><i class="fas fa-hotel"></i> <span>Hostel</span></a
                   >
                 </li>
                 <li>
-                  <a href="transport.html"
+                  <a href="{% url 'MOthers:transport-list-view' %}"
                     ><i class="fas fa-bus"></i> <span>Transport</span></a
                   >
                 </li>
@@ -803,64 +795,7 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill fb sm-box">
-                  <div class="social-likes">
-                    <p>Like us on facebook</p>
-                    <h6>50,095</h6>
-                  </div>
-                  <div class="social-boxs">
-                    <img
-                      src="assets/img/icons/social-icon-01.svg"
-                      alt="Social Icon"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill twitter sm-box">
-                  <div class="social-likes">
-                    <p>Follow us on twitter</p>
-                    <h6>48,596</h6>
-                  </div>
-                  <div class="social-boxs">
-                    <img
-                      src="assets/img/icons/social-icon-02.svg"
-                      alt="Social Icon"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill insta sm-box">
-                  <div class="social-likes">
-                    <p>Follow us on instagram</p>
-                    <h6>52,085</h6>
-                  </div>
-                  <div class="social-boxs">
-                    <img
-                      src="assets/img/icons/social-icon-03.svg"
-                      alt="Social Icon"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill linkedin sm-box">
-                  <div class="social-likes">
-                    <p>Follow us on linkedin</p>
-                    <h6>69,050</h6>
-                  </div>
-                  <div class="social-boxs">
-                    <img
-                      src="assets/img/icons/social-icon-04.svg"
-                      alt="Social Icon"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+     
           </div>
           {% endblock main %}
           <footer>
@@ -872,10 +807,20 @@
       <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
       <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'assets/js/feather.min.js' %}"></script>
+      
       <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
       <script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
       <script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
+      <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
       <script src="{% static 'assets/js/script.js' %}"></script>
+
+      <script src="{% static 'assets/js/moment.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+      <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/fullcalendar/jquery.fullcalendar.js' %}"></script>
+
+
     </body>
   </body>
 </html>
