@@ -1,7 +1,7 @@
 {% extends 'pbase.html'%} 
 {% load static %} 
 {% block title %} 
-Add Room
+Add TimeTable
 {% endblock title %} 
 {% block main %}
 <div class="content container-fluid">
@@ -9,10 +9,10 @@ Add Room
 <div class="page-header">
 <div class="row align-items-center">
 <div class="col">
-<h3 class="page-title">Add Rooms</h3>
+<h3 class="page-title">Add Time Table</h3>
 <ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="hostel.html">Hostel</a></li>
-<li class="breadcrumb-item active">Add Rooms</li>
+<li class="breadcrumb-item"><a href="time-table.html">Time Table</a></li>
+<li class="breadcrumb-item active">Add Time Table</li>
 </ul>
 </div>
 </div>
@@ -25,51 +25,54 @@ Add Room
 <form>
 <div class="row">
 <div class="col-12">
-<h5 class="form-title"><span>Room Information</span></h5>
+<h5 class="form-title"><span>Time Table</span></h5>
 </div>
 <div class="col-12 col-sm-4">
 <div class="form-group local-forms">
-<label>Block <span class="login-danger">*</span></label>
+<label>Teacher Id <span class="login-danger">*</span></label>
 <input type="text" class="form-control">
 </div>
 </div>
 <div class="col-12 col-sm-4">
 <div class="form-group local-forms">
-<label>Room No <span class="login-danger">*</span></label>
+<label>Name <span class="login-danger">*</span></label>
 <input type="text" class="form-control">
 </div>
 </div>
 <div class="col-12 col-sm-4">
 <div class="form-group local-forms">
-<label>Room Type <span class="login-danger">*</span></label>
-<select class="form-control select">
-<option>Select Type</option>
-<option>Normal</option>
-<option>AC</option>
-<option>Suite</option>
-</select>
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>No of Beds <span class="login-danger">*</span></label>
+<label>Class <span class="login-danger">*</span></label>
 <input type="text" class="form-control">
 </div>
 </div>
 <div class="col-12 col-sm-4">
 <div class="form-group local-forms">
-<label>Cose per Bed <span class="login-danger">*</span></label>
+<label>Section <span class="login-danger">*</span></label>
 <input type="text" class="form-control">
 </div>
 </div>
 <div class="col-12 col-sm-4">
 <div class="form-group local-forms">
-<label>Availability <span class="login-danger">*</span></label>
-<select class="form-control select">
-<option>Select Availability</option>
-<option>Available</option>
-<option>Not Available</option>
-</select>
+<label>Subject <span class="login-danger">*</span></label>
+<input type="text" class="form-control">
+</div>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms calendar-icon">
+<label>Date <span class="login-danger">*</span></label>
+<input class="form-control datetimepicker" type="text" placeholder="DD-MM-YYYY">
+</div>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>Start Time <span class="login-danger">*</span></label>
+<input type="time" class="form-control">
+</div>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>End Time <span class="login-danger">*</span></label>
+<input type="time" class="form-control">
 </div>
 </div>
 <div class="col-12">
