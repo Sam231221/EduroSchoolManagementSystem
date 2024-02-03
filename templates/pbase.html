@@ -34,6 +34,8 @@
       href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/plugins/simple-calendar/simple-calendar.css' %}">
+
     <link
       rel="stylesheet"
       href="{% static 'assets/plugins/fullcalendar/fullcalendar.min.css' %}"
@@ -42,7 +44,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
   </head>
 
-  <body>
+
     <body>
       <div class="main-wrapper">
 
@@ -54,7 +56,7 @@
             </a>
             <a href="{% url 'MEhub:home-view' %}" class="logo logo-small">
               <img
-                src="assets/img/logo-small.png"
+                src="{% static 'assets/img/logo-small.png' %}"
                 alt="Logo"
                 width="30"
                 height="30"
@@ -96,6 +98,7 @@
               <div class="dropdown-menu">
                 <div class="noti-content">
                   <div>
+
                     <a class="dropdown-item" href="javascript:;"
                       ><i class="flag flag-lr me-2"></i>English</a
                     >
@@ -246,11 +249,11 @@
                     class="rounded-circle"
                     src="{% static 'assets/img/profiles/avatar-01.jpg' %}"
                     width="31"
-                    alt="Soeng Souy"
+                    alt={{request.user}}
                   />
                   <div class="user-text">
-                    <h6>Soeng Souy</h6>
-                    <p class="text-muted mb-0">Administrator</p>
+                        <h6>Mr {{request.user.last_name}}</h6>
+                    <p class="text-muted mb-0">{{request.user.role}}</p>
                   </div>
                 </span>
               </a>
@@ -264,13 +267,13 @@
                     />
                   </div>
                   <div class="user-text">
-                    <h6>Soeng Souy</h6>
-                    <p class="text-muted mb-0">Administrator</p>
+                    <h6>{{request.user}}</h6>
+                    <p class="text-muted mb-0">{{request.user.role}}</p>
                   </div>
                 </div>
                 <a class="dropdown-item" href="profile.html">My Profile</a>
                 <a class="dropdown-item" href="inbox.html">Inbox</a>
-                <a class="dropdown-item" href="login.html">Logout</a>
+                <a class="dropdown-item" href="{% url 'Account:logout-view' %}">Logout</a>
               </div>
             </li>
           </ul>
@@ -381,14 +384,13 @@
                 <li class="submenu">
                   <a href="#"
                     ><i class="fas fa-shield-alt"></i>
-                    <span> Authentication </span>
+                    <span> Password </span>
                     <span class="menu-arrow"></span
                   ></a>
                   <ul>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                    <li><a href="error-404.html">Error Page</a></li>
+
+                    <li><a href="{% url 'Account:request-reset-email-view' %}">Forgot Password</a></li>
+                   
                   </ul>
                 </li>
   
@@ -805,6 +807,7 @@
       </div>
 
       <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+      <script src="{% static 'assets/js/moment.min.js' %}"></script>
       <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'assets/js/feather.min.js' %}"></script>
       
@@ -812,15 +815,19 @@
       <script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
       <script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
       <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
-      <script src="{% static 'assets/js/script.js' %}"></script>
-
-      <script src="{% static 'assets/js/moment.min.js' %}"></script>
-      <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
-      <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
       <script src="{% static 'assets/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
       <script src="{% static 'assets/plugins/fullcalendar/jquery.fullcalendar.js' %}"></script>
 
 
+
+      <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+      <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+
+      <script src="{% static 'assets/plugins/simple-calendar/jquery.simple-calendar.js' %}"></script>
+      <script src="{% static 'assets/js/calander.js' %}"></script>
+      <script src="{% static 'assets/js/circle-progress.min.js' %}"></script>
+      <script src="{% static 'assets/js/script.js' %}"></script>
+        {% include 'utilities/flash_message.html' %}
     </body>
-  </body>
+
 </html>

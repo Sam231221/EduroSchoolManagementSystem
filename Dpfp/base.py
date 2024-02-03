@@ -19,6 +19,8 @@ EXPLICT_APPS = [
     "MOthers",
     "ckeditor",
     "ckeditor_uploader",
+       'rest_framework',
+    'corsheaders',
 ]
 THIRDPARTY_PLUGIN = [
     #'whitenoise'
@@ -174,7 +176,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+CORS_ALLOW_ALL_ORIGINS=True
 SOCIAL_AUTH_FACEBOOK_KEY = '605352750442305'
 SOCIAL_AUTH_FACEBOOK_SECRET = '9b701b2223914aeda73111b89cc295c4'
 

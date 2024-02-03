@@ -7,7 +7,7 @@ from . import views
 app_name = "MEhub"
 
 urlpatterns = [
-    path("", views.HomeView.as_view(), name="home-view"),  
+    path("", login_required(views.HomeView.as_view()), name="home-view"),  
     path("students", views.StudentListView.as_view(), name="student-list-view"),  
     path("students/1", views.StudentEditView.as_view(), name="student-edit-view"),  
     path("students/add",views.StudentAddView.as_view() , name="student-add-view"),  
