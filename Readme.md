@@ -2,7 +2,7 @@
 > A batteries-included Django starter project by Sameer Shahi Thakuri.
 -->
 
-This is Alex branch
+This is Master branch
 
 
 
