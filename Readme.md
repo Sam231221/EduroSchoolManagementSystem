@@ -2,8 +2,9 @@
 > A batteries-included Django starter project by Sameer Shahi Thakuri.
 -->
 
+This is Alex branch
 
-zxasdf
+
 
 asgiref==3.5.0
 black==22.1.0
@@ -43,7 +44,7 @@ tomli==2.0.1
 tzdata==2022.1
 urllib3==2.0.2
 validate-email==1.3
-
+```
 
 
 
