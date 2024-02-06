@@ -8,10 +8,12 @@ app_name = "MEhub"
 
 urlpatterns = [
     path("", login_required(views.HomeView.as_view()), name="home-view"),  
-    path("students", views.StudentListView.as_view(), name="student-list-view"),  
-    path("students/1", views.StudentEditView.as_view(), name="student-edit-view"),  
-    path("students/add",views.StudentAddView.as_view() , name="student-add-view"),  
-    path("students/1",views.StudentDeleteView.as_view() , name="student-delete-view"),  
+    
+    path("students/", views.StudentListView.as_view(), name="student-list-view"),
+    path("students/add", views.StudentCreateView.as_view(), name="student-add-view"),
+    path("students/<int:pk>", views.StudentDetailView.as_view(), name="student-detail-view"),
+    path("students/<int:pk>/edit", views.StudentUpdateView.as_view(), name="student-edit-view"),
+    path("students/<int:pk>/delete",views.StudentDeleteView.as_view() , name="student-delete-view"),  
 
     path("teachers", views.TeacherListView.as_view(), name="teacher-list-view"),  
     path("teachers/1", views.TeacherEditView.as_view(), name="teacher-edit-view"),  

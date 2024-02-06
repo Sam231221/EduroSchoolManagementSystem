@@ -1,15 +1,122 @@
 from django.db import models
 from MAuthentication.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.core.validators import (
-    FileExtensionValidator,
-    MinValueValidator,
-    MaxValueValidator,
-)
+from django.core.validators import FileExtensionValidator
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
+from django.utils import timezone
+from MAuthentication.models import User
+
 import uuid
 
 
 # Create your models here.
+
+
+
+class StudentsManager(User):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.role = "STUDENT"
+        user.save(using=self._db)
+        
+        return user
+
+
+
+
+class Student(AbstractUser):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others')
+    ]
+    class_year_choice = [(year, year) for year in range(1, 13)]
+    BLOOD_CHOICES = [
+        ('B+', 'B+'),
+        ('A+', 'A+'),
+        ('O+', 'O+'),
+        ('Others', 'Others')
+    ]
+    RELIGION_CHOICES = [
+        ('Hindu', 'Hindu'),
+        ('Christian', 'Christian'),
+        ('Others', 'Others')
+    ]
+    PROFILE_PIC_DIR = 'student_photos/'
+
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+    )
+
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    date_of_birth = models.DateField()
+    roll = models.CharField(max_length=20, blank=True, null=True)
+    blood_group = models.CharField(max_length=6, choices=BLOOD_CHOICES)
+    religion = models.CharField(max_length=20, choices=RELIGION_CHOICES)
+    section = models.CharField(max_length=5)
+    admission_id = models.CharField(max_length=20, blank=True, null=True)
+    parent_name = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=50, blank=True, null=True)
+    phone = models.CharField(
+        validators=[phone_regex], max_length=17, blank=True)
+    photo = models.ImageField(upload_to=PROFILE_PIC_DIR, blank=True, null=True)
+    class_no = models.IntegerField(default=1, choices=class_year_choice)
+
+    email = models.EmailField(unique=True)
+
+    objects = StudentsManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'date_of_birth', 'gender']
+    
+
+
+    class Meta:
+        ordering = ('class_no', 'section')
+
+    groups = models.ManyToManyField(Group, related_name="student_set")
+    user_permissions = models.ManyToManyField(Permission, related_name="student_set")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def clean(self):
+        if self.date_of_birth and self.date_of_birth > timezone.now().date():
+            raise ValidationError("Date of birth cannot be in the future.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()  # Run full validation before saving
+        super().save(*args, **kwargs)
+
+    def get_blood_group_display(self):
+        return dict(self.BLOOD_CHOICES).get(self.blood_group)
+
+    def get_religion_display(self):
+        return dict(self.RELIGION_CHOICES).get(self.religion)
+
+    @property
+    def full_name(self):
+        return f"{(self.first_name).capitalize()} {self.last_name.capitalize()}"
+
+    def save_photo(self, photo):
+        self.photo.save(photo.name, photo) if photo else setattr(
+            self, 'photo', None)
+
+    def delete_photo(self):
+        if self.photo:
+            self.photo.delete()
+            setattr(self, 'photo', None)
+
+
 class EducationalInstitution(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
@@ -33,172 +140,3 @@ class EducationalInstitution(models.Model):
         blank=True,
         null=True,
     )
-
-
-# class Education(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     start_date = models.DateField()
-#     end_date = models.DateField()
-
-
-# class Section(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-
-
-# class Subject(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     class_name = models.CharField(max_length=100, null=True)
-
-
-# class Class(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-
-
-# class Student(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     roll_number = models.CharField(max_length=20)
-#     blood_group = models.CharField(max_length=5)
-#     profile_pic = models.ImageField(
-#         upload_to="student_profile_pics/", blank=True, null=True
-#     )
-#     class_info = models.ForeignKey(Class, on_delete=models.CASCADE)
-#     admission_id = models.CharField(max_length=20)
-#     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-#     about = models.TextField()
-#     mobile = models.CharField(max_length=15)
-#     email = models.EmailField()
-#     gender = models.CharField(max_length=10)
-#     date_of_birth = models.DateField()
-#     permanent_address = models.TextField()
-#     temporary_address = models.TextField()
-
-
-# class Employee(models.Model):
-#     type = models.CharField(max_length=20)
-#     name = models.CharField(max_length=100, null=True)
-#     profile_pic = models.ImageField(
-#         upload_to="employee_profile_pics/", blank=True, null=True
-#     )
-#     email = models.EmailField()
-#     gender = models.CharField(max_length=10)
-#     date_of_birth = models.DateField()
-#     joining_date = models.DateField()
-#     leave_date = models.DateField(null=True, blank=True)
-#     address = models.TextField()
-#     phone_number = models.CharField(max_length=15)
-#     experience = models.TextField()
-
-
-# # Similarly, continue modeling other entities in your system...
-
-
-# class Hostel(models.Model):
-#     block = models.CharField(max_length=100, null=True)
-#     room_number = models.CharField(max_length=20)
-#     room_type = models.CharField(
-#         max_length=20,
-#         choices=[("Small", "Small"), ("Medium", "Medium"), ("Large", "Large")],
-#     )
-#     number_of_beds = models.IntegerField()
-#     availability = models.BooleanField(default=True)
-
-
-# class Sports(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     coach_name = models.CharField(max_length=100, null=True)
-#     start_year = models.IntegerField()
-
-
-# class Payment(models.Model):
-#     bank_details = models.OneToOneField(BankDetails, on_delete=models.CASCADE)
-#     terms_and_conditions = models.TextField()
-#     notes = models.TextField()
-
-
-# class BankDetails(models.Model):
-#     account_holder = models.CharField(max_length=100, null=True)
-#     bank_name = models.CharField(max_length=100, null=True)
-#     ifsc_code = models.CharField(max_length=20)
-#     account_number = models.CharField(max_length=20)
-
-
-# class Invoice(models.Model):
-#     invoice_no = models.CharField(max_length=20)
-#     issued_date = models.DateField()
-#     due_date = models.DateField()
-#     name = models.CharField(max_length=100, null=True)
-#     tax = models.CharField(
-#         max_length=20, choices=[("GST", "GST"), ("VAT", "VAT"), ("None", "None")]
-#     )
-#     recurring_invoice = models.BooleanField()
-#     sign = models.CharField(max_length=100, null=True)
-
-
-# class Charges(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     type = models.CharField(max_length=100, null=True)
-
-
-# class Discount(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-
-# class InvoiceItem(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     category = models.CharField(max_length=100, null=True)
-#     quantity = models.IntegerField()
-#     price = models.DecimalField(max_digits=10, decimal_places=2)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     discount = models.ForeignKey(Discount, on_delete=models.CASCADE)
-
-
-# class Fees(models.Model):
-#     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
-#     student_name = models.CharField(max_length=100, null=True)
-#     gender = models.CharField(max_length=10)
-#     fees_type = models.CharField(max_length=100, null=True)
-#     fees_amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     paid_date = models.DateField()
-
-
-# class Expenses(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     item_quantity = models.IntegerField()
-#     expense_amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     source_of_purchase = models.CharField(max_length=100, null=True)
-
-
-# class Holiday(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     type = models.CharField(max_length=100, null=True)
-#     start_date = models.DateField()
-#     end_date = models.DateField()
-
-
-# class Exam(models.Model):
-#     name = models.CharField(max_length=100, null=True)
-#     class_name = models.CharField(max_length=100, null=True)
-#     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-#     fees = models.DecimalField(max_digits=10, decimal_places=2)
-#     start_time = models.DateTimeField()
-#     end_time = models.DateTimeField()
-#     event_date = models.DateField()
-
-
-# class Salary(models.Model):
-#     staff_category = models.CharField(max_length=100, null=True)
-#     name = models.CharField(max_length=100, null=True)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-
-# class TimeTable(models.Model):
-#     teacher_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=100, null=True)
-#     class_name = models.CharField(max_length=100, null=True)
-#     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-#     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-#     date = models.DateField()
-#     start_time = models.TimeField()
-#     end_time = models.TimeField()
