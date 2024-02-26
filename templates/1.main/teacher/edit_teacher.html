@@ -1,0 +1,18 @@
+{% extends 'base.html'%} {% load static %} {% block title %} Edit Teacher {%endblock title %} {% block main %}
+
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Edit Teachers</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{%url 'MEhub:teacher-list-view'%}">Teachers</a></li>
+          <li class="breadcrumb-item active">Edit Teachers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+ {% include "./teacher_form.html" %}
+</div>
+{% endblock main %}

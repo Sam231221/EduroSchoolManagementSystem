@@ -1,0 +1,5 @@
+{
+  "TestFramework": "Pytest",
+  "Interpreter": "CondaEnv|CondaEnv|project_sms",
+  "SuppressEnvironmentCreationPrompt": true
+}

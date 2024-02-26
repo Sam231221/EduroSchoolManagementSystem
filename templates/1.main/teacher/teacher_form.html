@@ -1,0 +1,182 @@
+{% load custom_filters %}
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="row">
+                
+              <div class="col-12">
+                <h5 class="form-title"><span>Basic Details</span></h5>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    {{ form.first_name.label_tag }}  {{ form.first_name }} 
+                    {{ form.first_name.errors }}
+                  </div>
+            </div>
+
+              <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    {{ form.last_name.label_tag }}  {{ form.last_name }} 
+                    {{ form.last_name.errors }}
+                  </div>
+            </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.gender.label_tag }}  {{ form.gender }} 
+                    {{ form.gender.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms calendar-icon">
+                  {{ form.date_of_birth.label_tag }}  {{ form.date_of_birth }} 
+                    {{ form.date_of_birth.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.mobile.label_tag }}  {{ form.mobile }} 
+                    {{ form.mobile.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms calendar-icon">
+                  {{ form.joining_date.label_tag }}  {{ form.joining_date }} 
+                    {{ form.joining_date.errors }}
+                </div>
+              </div>
+
+
+              <div class="col-12 col-sm-4 local-forms">
+                <div class="form-group">
+                  {{ form.qualification.label_tag }}  {{ form.qualification }} 
+                    {{ form.qualification.errors }}
+                </div>
+              </div>
+              
+              <div class="col-12 col-sm-4 local-forms">
+                <div class="form-group">
+                  {{ form.major_subject.label_tag }}  {{ form.major_subject }} 
+                    {{ form.major_subject.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                   {{ form.experience.label_tag }}  {{ form.experience }} 
+                    {{ form.experience.errors }}
+                </div>
+              </div>
+              
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                   {{ form.photo.label_tag }}  {{ form.photo }} 
+                    {{ form.photo.errors }}
+                </div>
+              </div>
+              
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                   {{ form.bio.label_tag }}  {{ form.bio }} 
+                    {{ form.bio.errors }}
+                </div>
+              </div>
+              
+
+
+              {% comment %} Login Details {% endcomment %}
+              <div class="col-12">
+                <h5 class="form-title"><span>Login Details</span></h5>
+              </div>
+              
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Username <span class="login-danger">*</span></label>
+                  {{ form.username.label_tag }}  {{ form.username }} 
+                    {{ form.username.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.email.label_tag }}  {{ form.email }} 
+                    {{ form.email.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.password.label_tag }}  {{ form.password }} 
+                    {{ form.password.errors }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.confirm_password.label_tag }}  {{ form.confirm_password }} 
+                    {{ form.confirm_password.errors }}
+                </div>
+              </div>
+    
+
+              <div class="col-12">
+                <h5 class="form-title"><span>Address</span></h5>
+              </div>
+              <div class="col-12">
+                <div class="form-group local-forms">
+                  {{ form.address.label_tag }}  {{ form.address }} 
+                    {{ form.address.errors }}
+                </div>
+              </div>
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.city.label_tag }}  {{ form.city }} 
+                    {{ form.city.errors }}
+                </div>
+              </div>
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.state.label_tag }}  {{ form.state }} 
+                    {{ form.state.errors }}
+                </div>
+              </div>
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.zip_code.label_tag }}  {{ form.zip_code }} 
+                    {{ form.zip_code.errors }}
+                </div>
+              </div>
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  {{ form.country.label_tag }}  {{ form.country }} 
+                    {{ form.country.errors }}
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="teacher-submit">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+
+                {% if user.is_authenticated and user.is_superuser and request.path|extract_last == "edit"%} 
+                  {% with request.path|extract_pk_from_url as pk %}
+                    <a
+                      href="{%url 'MEhub:teacher-delete-view' pk%}"
+                      class="btn btn-danger"
+                      >Delete user</a
+                    >
+                {% endwith %} {% endif %}
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.views.generic import  View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Student
+from .models import Student, Teacher
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from .forms import StudentForm
-
+from .forms import StudentForm, TeacherForm
+from django.http import HttpResponseRedirect
 
 
 class HomeView(View):
     def get(self, request):
-        context={}
+        context={"request":request, "user":self.request.user}
+        print(context["user"])
+        print(request)
         return render(request,'dashboard.html', context)
 
 
@@ -22,67 +25,96 @@ class StudentListView(ListView):
 class StudentDetailView(DetailView):
     model = Student
     template_name = '1.main/student/student_details.html'
-    print("IN")
 
 
-class StudentCreateView(CreateView):
+class StudentCreateView(CreateView, LoginRequiredMixin):
     model = Student
     form_class = StudentForm
-    template_name = '1.main/student/student_form.html'
-    success_url = reverse_lazy('MEhub:student-list-view')
+    template_name = '1.main/student/add_student.html'
+    # success_url = reverse_lazy('MEhub:student-list-view')
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        success_url = reverse_lazy('MEhub:student-detail-view', args=[self.object.pk])
+        return HttpResponseRedirect(success_url)
 
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(UpdateView, LoginRequiredMixin):
     model = Student
     form_class = StudentForm
-    template_name = '1.main/student/student_form.html'
-    success_url = reverse_lazy('MEhub:student-list-view')
+    template_name = '1.main/student/edit_student.html'
     context_object_name = 'student'
+    # success_url = reverse_lazy('MEhub:student-list-view')
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        success_url = reverse_lazy('MEhub:student-detail-view', args=[self.object.pk])
+        return HttpResponseRedirect(success_url)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Retrieve the available section options from wherever they are defined
         # For example, if you have them in a list or queryset, you can do:
-
+        # print(self.model.objects)
         context['section_options'] = [('B', 'B'), ('A', 'A'), ('C', 'C')]
         return context
 
-    def form_valid(self, form):
-        # Save the form and redirect
-        # self.object = form.save(commit=True)
-        return super().form_valid(form)
 
 
-class StudentDeleteView(DeleteView):
+class StudentDeleteView(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
     model = Student
-    template_name = 'student_confirm_delete.html'
-    success_url = reverse_lazy('student_list')
+    template_name = '1.main/student/student_confirm_delete.html'
+    success_url = reverse_lazy('MEhub:student-list-view')
+    
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.is_superuser or self.request.user.role == "TEACHER")
+    
+    
+    
 
 
+class TeacherListView(ListView):
+    model = Teacher
+    template_name = "1.main/teacher/teacher_list.html"
+    context_object_name = 'teachers'
 
 
+class TeacherEditView(UpdateView, LoginRequiredMixin):
+    model = Teacher
+    form_class = TeacherForm
+    template_name = '1.main/teacher/edit_teacher.html'
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        success_url = reverse_lazy('MEhub:teacher-detail-view', args=[self.object.pk])
+        return HttpResponseRedirect(success_url)
+    
 
-class TeacherListView(View):
-    def get(self, request):
-        context={}
-        return render(request,'1.main/teacher/teachers.html', context)
+class TeacherAddView(CreateView, LoginRequiredMixin):
+    model = Teacher
+    form_class = TeacherForm
+    template_name = '1.main/teacher/add_teacher.html'
+    success_url = reverse_lazy('MEhub:teacher-list-view')
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        success_url = reverse_lazy('MEhub:teacher-detail-view', args=[self.object.pk])
+        return HttpResponseRedirect(success_url)
+    
 
-class TeacherEditView(View):
-    def get(self, request):
-        context={}
-        return render(request,'1.main/teacher/edit-teacher.html', context)
-class TeacherAddView(View):
-    def get(self, request):
-        context={}
-        return render(request,'1.main/teacher/add-teacher.html', context)
+class TeacherDetailView(DetailView):
+    model = Teacher
+    template_name = '1.main/teacher/teacher_details.html'
+    context_object_name = 'teacher'
 
-class TeacherDeleteView(View):
-    def post(self, request):
-       
-        product_id = int(request.POST.get('productid'))
-        product_qty = int(request.POST.get('productqty'))
-      
-        return product_id
+
+class TeacherDeleteView(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Teacher
+    template_name = '1.main/teacher/teacher_confirm_delete.html'
+    success_url = reverse_lazy('MEhub:teacher-list-view')
+    
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.is_superuser or self.request.user.role == "TEACHER")
 
 
 

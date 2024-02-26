@@ -1,0 +1,23 @@
+{% extends 'base.html'%} {% load static %} {% block title %} Students | Edit {%endblock title %} 
+{% block main %} {% load custom_filters %}
+
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col-sm-12">
+        <div class="page-sub-header">
+          <h3 class="page-title">Edit Students</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'MEhub:student-list-view' %}">Students</a>
+            </li>
+            <li class="breadcrumb-item active">Edit Students</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%include './student_form.html'%}
+</div>
+{% endblock %}

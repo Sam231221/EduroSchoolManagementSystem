@@ -1,161 +1,161 @@
-{% extends 'pbase.html'%} 
-{% load static %} 
-{% block title %} 
-Students | Add
-{% endblock title %} 
-{% block main %}
-<div class="content container-fluid">
-    <div class="page-header">
-      <div class="row align-items-center">
-        <div class="col-sm-12">
-          <div class="page-sub-header">
-            <h3 class="page-title">Edit Students</h3>
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="{% url 'MEhub:student-list-view' %}">Students</a>
-              </li>
-              <li class="breadcrumb-item active">Edit Students</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+{% load custom_filters %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card comman-shadow">
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-12">
+              <h5 class="form-title student-info">
+                Student Information
+                <span
+                  ><a href="javascript:;"
+                    ><i class="feather-more-vertical"></i></a
+                ></span>
+              </h5>
+            </div>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card comman-shadow">
-          <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-              {% csrf_token %}
-              <div class="row">
-
-
-                <div class="col-12">
-                  <h5 class="form-title student-info">
-                    Student Information
-                    <span
-                      ><a href="javascript:;"
-                        ><i class="feather-more-vertical"></i></a
-                    ></span>
-                  </h5>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.first_name.label_tag }} {{ form.first_name }} 
-                    {{ form.first_name.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.last_name.label_tag }} {{ form.last_name }} 
-                    {{form.last_name.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.username.label_tag }} {{ form.username }} {{form.username.errors }}
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.parent_name.label_tag }} {{ form.parent_name }} {{form.parent_name.errors }}
-                  </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.address.label_tag }} {{ form.address }} {{form.address.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.gender.label_tag }} {{ form.gender }} {{form.gender.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms calendar-icon">
-                    {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
-                    {{ form.date_of_birth.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.roll.label_tag }} {{ form.roll }} {{form.roll.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.blood_group.label_tag }} {{ form.blood_group }} {{form.blood_group.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.religion.label_tag }} {{ form.religion }} {{form.religion.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.email.label_tag }} {{ form.email }} {{form.email.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.class_no.label_tag }} {{ form.class_no }} {{form.class_no.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.section.label_tag }} {{ form.section }} {{form.section.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.admission_id.label_tag }} {{ form.admission_id }} {{form.admission_id.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.phone.label_tag }} {{ form.phone }} {{form.phone.errors }}
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group local-forms">
-                    {{ form.password.label_tag }} {{ form.password }} {{form.password.errors }}
-                  </div>
-                </div>
-                
-
-                <div class="col-12 col-sm-4">
-                  <div class="form-group students-up-files local-forms">
-                    {{ form.photo.label_tag }} {{ form.photo }} {{form.photo.errors }}
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="student-submit">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </div>
-                </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.first_name.label_tag }} {{ form.first_name }} 
+                {{ form.first_name.errors }}
               </div>
-            </form>
-            {% if form.errors %}
-            {{form.errors}}
-            {% endif %}
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.last_name.label_tag }} {{ form.last_name }}
+                {{form.last_name.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.username.label_tag }} {{ form.username }}
+                {{form.username.errors }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.parent_name.label_tag }} {{ form.parent_name }}
+                {{form.parent_name.errors }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.address.label_tag }} {{ form.address }}
+                {{form.address.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.gender.label_tag }} {{ form.gender }}
+                {{form.gender.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms calendar-icon">
+                {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }} 
+                {{form.date_of_birth.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.roll.label_tag }} {{ form.roll }} {{form.roll.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.blood_group.label_tag }} {{ form.blood_group }}
+                {{form.blood_group.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.religion.label_tag }} {{ form.religion }}
+                {{form.religion.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.email.label_tag }} {{ form.email }} 
+                {{form.email.errors}}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.class_no.label_tag }} {{ form.class_no }}
+                {{form.class_no.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.section.label_tag }} {{ form.section }}
+                {{form.section.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.admission_id.label_tag }} {{ form.admission_id }}
+                {{form.admission_id.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.phone.label_tag }} {{ form.phone }} 
+                {{form.phone.errors}}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.password.label_tag }} {{ form.password }}
+                {{form.password.errors }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group students-up-files local-forms">
+                {{ form.photo.label_tag }} {{ form.photo }} 
+                {{form.photo.errors}}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group students-up-files local-forms">
+                {{ form.bio.label_tag }} {{ form.bio }} {{form.bio.errors }}
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="student-submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                {% if user.is_authenticated and user.is_superuser and request.path|extract_last == "edit"%} 
+                {% with request.path|extract_pk_from_url as pk %}
+                <a
+                  href="{%url 'MEhub:student-delete-view' pk%}"
+                  class="btn btn-danger"
+                  >Delete user</a
+                >
+                {% endwith %} {% endif %}
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
+
+        {% if form.errors %} {{form.errors}} {% endif %}
       </div>
     </div>
   </div>
-{% endblock %}
+</div>

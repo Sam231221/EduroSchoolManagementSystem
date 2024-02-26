@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    {% block metaBlock %}{% endblock %}
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link
+      rel="shortcut icon"
+      href="{% static 'assets/img/favicon_icons/favicon.ico' %}"
+    />
+    {% include "components/styleLink.html" %} 
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      {% include "components/navbar.html" with navbar=navbar %} 
+      {% include "components/sidebar.html" with sidebar=sidebar %} 
+      <div class="page-wrapper">
+        {% block main %}{% endblock%}
+      </div>
+    </div>
+    {% include "components/scriptLink.html" %}
+  </body>
+</html>

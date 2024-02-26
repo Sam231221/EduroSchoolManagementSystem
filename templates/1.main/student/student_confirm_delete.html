@@ -1,0 +1,9 @@
+{% extends 'base.html'%} {% load static %} {% block title %} Delete Student{%endblock title %} {% block main %}
+<form method="post">
+    <p>Are you sure you want to delete the user?</p>
+    {% csrf_token %}
+    {% comment %} {{form.as_table}} {% endcomment %}
+    <input type="submit" value="Yes, I'm Sure!" />
+</form>
+
+{% endblock main %}
